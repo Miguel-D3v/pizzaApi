@@ -2,24 +2,27 @@ import sql from "../connection.ts";
 import IModel from "./model.interface.ts";
 
 export class Model implements IModel {
+  
     async sync(): Promise<void> {
         try {
-            const createPizzaTable = await sql `
-                CREATE TABLE pizza (
+            await sql `
+                CREATE TABLE IF NOT EXISTS pizza (
                     pizza_id SERIAL PRIMARY KEY,
                     name VARCHAR(255) NOT NULL,
                     price VARCHAR(50) NOT NULL
                 );
             `;
+            console.log("Pizza table created");
     
-            const createOrdersTable = await sql `
-                CREATE TABLE orders (
+             await sql `
+                CREATE TABLE IF NOT EXISTS orders (
                     order_id SERIAL PRIMARY KEY
                 );
             `;
+            console.log("Orders table created");
     
-            const createOrderItemsTable = await sql `
-                CREATE TABLE order_items (
+             await sql `
+                CREATE TABLE IF NOT EXISTS order_items (
                     item_id SERIAL PRIMARY KEY,
                     pizza_id INT REFERENCES pizza(pizza_id),
                     quantity INT NOT NULL,
@@ -27,13 +30,13 @@ export class Model implements IModel {
                     UNIQUE(pizza_id, order_id)
                 );
             `;
-    
-            console.log("CREATED TABLES:", createPizzaTable, createOrdersTable, createOrderItemsTable);
+            console.log("Order_items table created");
         } catch (e) {
             console.error(e);
         }
     }
-  addPizza(_params:{ name: string , price : number }){
+    
+  addPizza(_params:{ name: string , price : string }){
         const result = sql `
         INSERT INTO pizza ( name , price )
         VALUES (${_params.name}, ${_params.price})
