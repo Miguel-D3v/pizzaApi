@@ -4,4 +4,5 @@ import pizzaController from "./pizzaController.ts";
 export  const pizzaRouter = new Router();
 
  pizzaRouter.post("/pizzas",pizzaController.AddPizza);
+ pizzaRouter.get("/pizzas",pizzaController.AllPizzas);
 

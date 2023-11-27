@@ -1,3 +1,4 @@
+import { pizza } from "../../domain/pizza.model.ts";
 import sql from "../connection.ts";
 import IModel from "./model.interface.ts";
 
@@ -36,11 +37,18 @@ export class Model implements IModel {
         }
     }
     
-  addPizza(_params:{ name: string , price : string }){
-        const result = sql `
+  async addPizza(_params:{ name: string , price : string }){
+        const result = await sql `
         INSERT INTO pizza ( name , price )
         VALUES (${_params.name}, ${_params.price})
        `
           return result ;
     }    
+
+  async findAllPizzas(): Promise<pizza> {
+        const result = await sql `
+         SELECT * FROM pizza ;
+       `
+       return result ;
+  }
 }

@@ -5,7 +5,7 @@ import { Model } from "../../../database/model/model.ts";
 export default class PizzaController {
    
   
-  static async AddPizza(ctx: RouterContext<'/pizzas'>) {
+  static async AddPizza(ctx: RouterContext<'/pizzas'>){
        const body = await ctx.request.body({ type: 'json' }).value;
     try {
         const pizzaModel = new Model();
@@ -15,8 +15,25 @@ export default class PizzaController {
     } catch (error) {
         ctx.response.body = {
         error: true,
-        message: error.message,
+        message: error.message
       };
     }
+  }
+
+  static async AllPizzas(ctx: RouterContext<'/pizzas'>){
+       try {
+         const pizzaModel = new Model();
+         const allpizza =  await pizzaModel.findAllPizzas()
+         ctx.response.body = {
+              "message": "Ok",
+              "Pizza": allpizza
+            };
+         ctx.response.status = Status.OK;
+       } catch (error) {
+         ctx.response.body = {
+          error: true,
+          message: error.message
+         }
+       }
   }
 }
