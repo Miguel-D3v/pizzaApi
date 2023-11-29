@@ -1,5 +1,5 @@
 import { Router } from "https://deno.land/x/oak/mod.ts";
-import { pizzaRouter } from "./features/pizza/ports/routes.ts";
+import { pizzaRouter } from "./features/pizza/routes.ts";
 import { orderRouter } from "./features/order/routes.ts";
 const routes = new Router({ prefix: '/api' });
 
