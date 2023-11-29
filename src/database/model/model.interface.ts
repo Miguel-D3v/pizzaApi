@@ -6,4 +6,5 @@ export default interface IModel {
     findAllPizzas(): Promise<pizza> ;
     addOrder(_params: { pizzaId: number, quantity:number }): Promise<pizza>;
     findAllOrders(): Promise<pizza>;
+    findOrderById(_params: {order_id: string}): Promise<pizza|string>;
 }

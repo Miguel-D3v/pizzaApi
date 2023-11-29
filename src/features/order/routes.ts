@@ -5,4 +5,5 @@ export  const orderRouter = new Router();
 
  orderRouter.post("/orders",OrderController.AddOrder);
  orderRouter.get("/orders",OrderController.GetOrder);
+ orderRouter.get("/order/:id",OrderController.GetOrderById);
 

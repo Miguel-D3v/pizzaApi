@@ -92,4 +92,26 @@ export class Model implements IModel {
         throw error;
     }  
   }
+  async findOrderById(_params: { order_id: string; }): Promise<pizza|string> {
+    try {
+        const result = await sql`
+            SELECT
+                item.order_id,
+                pizza.name AS pizza_name,
+                item.quantity
+            FROM
+                order_items item
+            JOIN
+                pizza ON item.pizza_id = pizza.pizza_id
+            WHERE
+                item.order_id = ${_params.order_id};
+        `;
+        if (result.length === 0) {
+            return `No orders found for order ID ${_params.order_id}.`;
+          }
+        return result;
+    } catch (error) {
+        return "Error finding order with ID ${_params.order_id}: "+error;
+    }
+  }
 }
