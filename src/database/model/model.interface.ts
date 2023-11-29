@@ -4,4 +4,6 @@ export default interface IModel {
     sync(): void;
     addPizza(_params: { name: string, price: string }): Promise<pizza>;
     findAllPizzas(): Promise<pizza> ;
+    addOrder(_params: { pizzaId: number, quantity:number }): Promise<pizza>;
+    findAllOrders(): Promise<pizza>;
 }

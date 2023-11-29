@@ -26,7 +26,7 @@ export default class PizzaController {
          const allpizza =  await pizzaModel.findAllPizzas()
          ctx.response.body = {
               "message": "Ok",
-              "Pizza": allpizza
+              "Pizzas": allpizza
             };
          ctx.response.status = Status.OK;
        } catch (error) {

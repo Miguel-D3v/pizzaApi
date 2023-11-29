@@ -51,4 +51,45 @@ export class Model implements IModel {
        `
        return result ;
   }
+
+  async addOrder(_params: { pizzaId: number; quantity: number; }): Promise<pizza> {
+    try {
+        const orderResult = await sql`
+            INSERT INTO orders DEFAULT VALUES RETURNING order_id
+        `;
+
+        const orderId = orderResult[0].order_id;
+
+        const itemResult = await sql`
+            INSERT INTO order_items (pizza_id, quantity, order_id)
+            VALUES (${_params.pizzaId}, ${_params.quantity}, ${orderId})
+            RETURNING *; 
+        `;
+
+        return itemResult[0]; 
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+
+  }
+   async findAllOrders(): Promise<pizza> {
+    try {
+        const result = await sql`
+            SELECT
+                item.order_id,
+                pizza.name AS pizza_name,
+                item.quantity
+            FROM
+                order_items item
+            JOIN
+                pizza ON item.pizza_id = pizza.pizza_id;
+        `;
+
+        return result;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }  
+  }
 }
